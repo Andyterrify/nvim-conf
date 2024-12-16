@@ -10,7 +10,9 @@
 -- settings need to load first as it contains the leader key mapping, which has to happen before lazy
 --
 
-require("andyterrify.init")
+-- require("andyterrify.init")
+require("avasile.init")
+
 -- require("new.remap")
 -- require("new.settings")
 -- require("new.autocommands")
