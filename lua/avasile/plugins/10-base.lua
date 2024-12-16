@@ -1,4 +1,5 @@
 return {
+	"nvim-lua/plenary.nvim",
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
@@ -17,8 +18,10 @@ return {
 		tag = "0.1.8",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			'nvim-telescope/telescope-ui-select.nvim',
 			'nvim-tree/nvim-web-devicons',
+			"nvim-treesitter/nvim-treesitter",
+			'nvim-telescope/telescope-ui-select.nvim',
+			{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
 		},
 		config = require("avasile.config.plugins").telescope.setup
 	},

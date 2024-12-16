@@ -6,21 +6,38 @@ M.conf = {
 	}
 }
 
-local function nmap(keys, func, opts)
+M.nmap = function(keys, func, opts)
 	local o = { desc = 'DEFAULT: No Command Desc' }
 	vim.keymap.set("n", keys, func, vim.tbl_deep_extend('force', o, opts or {}))
 end
-M.nmap = nmap
 
--- -- WARN: TESTING
--- local bufnr = vim.api.nvim_get_current_buf()
--- local buf_clients = vim.lsp.get_clients({bufnr = bufnr})
--- if buf_clients then
--- 	for i=1, #buf_clients do
--- 		print("Index:", i, "Value:", vim.inspect(buf_clients[i].capabilities))
--- 	end
--- end
--- -- WARN: END
+M.lsp_nmap = function(keys, func, opts, desc)
+	M.nmap(keys, func, { buffer = opts.buf, desc = "LSP: " .. desc })
+end
+
+-- Useful to quickly map an LSP keybind only if the server supports it
+M.client_nmap = function(args)
+	local supports = false
+
+	if args.buf_clients then
+		for _, server in ipairs(args.buf_clients) do
+			if server:supports_method(args.feat) then
+				supports = true
+				break
+			end
+		end
+	end
+
+
+	if supports then
+		M.lsp_nmap(args.keybind, args.fn, args.opts, args.desc)
+	else
+		M.lsp_nmap(args.keybind,
+			function() print("Feat '" .. args.feat .. "'Not supported") end,
+			args.opts, "Server Not Implemented"
+		)
+	end
+end
 
 -- global config to share
 M.open_fugitive = function()
