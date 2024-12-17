@@ -38,4 +38,4 @@ require("avasile.remap")
 require("avasile.lazy")
 
 -- setup personal LSP prefs
-require("avasile.config.lsp").setup()
+-- require("avasile.config.lsp").mason_setup()

@@ -66,7 +66,9 @@ end
 local function lsp_setup()
 	M.lsp.enabled = true
 
-	require("avasile.config.lsp").setup()
+	-- where servers are setup and configured
+	require("avasile.config.lsp").mason_setup()
+	-- where keybinds are setup
 	require("avasile.config.autocmds").lsp.setup()
 end
 

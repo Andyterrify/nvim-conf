@@ -6,17 +6,22 @@ M.conf = {
 	}
 }
 
-M.nmap = function(keys, func, opts)
-	local o = { desc = 'DEFAULT: No Command Desc' }
-	vim.keymap.set("n", keys, func, vim.tbl_deep_extend('force', o, opts or {}))
-end
+-- { keys, func, opts }
+-- where opts = { desc = "<some default>", ** }
+M.nmap = function(args)
+	-- local o = { desc = 'DEFAULT: No Command Desc' }
+	local o = vim.tbl_deep_extend(
+		'force',
+		{ desc = 'DEFAULT: No Command Desc' },
+		args.opts or {}
+	)
 
-M.lsp_nmap = function(keys, func, opts, desc)
-	M.nmap(keys, func, { buffer = opts.buf, desc = "LSP: " .. desc })
+	vim.keymap.set("n", args.keys, args.func, o)
 end
 
 -- Useful to quickly map an LSP keybind only if the server supports it
-M.client_nmap = function(args)
+-- args: { keybind, buf_clients, feat, fn, buffer, desc }
+M.lsp_nmap = function(args)
 	local supports = false
 
 	if args.buf_clients then
@@ -30,12 +35,23 @@ M.client_nmap = function(args)
 
 
 	if supports then
-		M.lsp_nmap(args.keybind, args.fn, args.opts, args.desc)
+		M.nmap({
+			keys = args.keybind,
+			func = args.fn,
+			opts = {
+				buffer = args.buffer,
+				desc = args.desc
+			}
+		})
 	else
-		M.lsp_nmap(args.keybind,
-			function() print("Feat '" .. args.feat .. "'Not supported") end,
-			args.opts, "Server Not Implemented"
-		)
+		M.nmap({
+			keys = args.keybind,
+			func = function() print("Feat '" .. args.feat .. "'Not supported") end,
+			opts = {
+				buffer = args.buffer,
+				desc = "Server Not Implemented"
+			}
+		})
 	end
 end
 
