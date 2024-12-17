@@ -8,7 +8,8 @@ M.conf = {
 
 -- { keys, func, opts }
 -- where opts = { desc = "<some default>", ** }
-M.nmap = function(args)
+---@param args table
+function M.nmap(args)
 	-- local o = { desc = 'DEFAULT: No Command Desc' }
 	local o = vim.tbl_deep_extend(
 		'force',

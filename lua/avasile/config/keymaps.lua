@@ -9,33 +9,62 @@ M.telescope = {
 		av.nmap({
 			keys = '<leader>pf',
 			func = require("avasile.config.plugins").search_project_files,
-			desc = 'Search [P]roject [F]iles'
+			opts = { desc = 'Search [P]roject [F]iles' }
 		})
 
 		av.nmap({
 			keys = '<leader>sh',
 			func = builtin.help_tags,
-			desc = '[S]earch [H]elp'
+			opts = { desc = '[S]earch [H]elp' }
 		})
 		av.nmap({
 			keys = '<leader>sk',
 			func = builtin.keymaps,
-			desc = '[S]earch [K]eymaps'
+			opts = { desc = '[S]earch [K]eymaps' }
 		})
 		-- -- searches only files tracked by git
 		av.nmap({
 			keys = "<C-p>",
 			func = builtin.git_files,
-			desc = "Search Git Files"
+			opts = { desc = "Search Git Files" }
 		})
-		-- vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-		-- vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+
+		av.nmap({
+			keys = '<leader><leader>',
+			func = builtin.buffers,
+			opts = { desc = '[ ][ ] search open buffers' }
+		})
+
+		av.nmap({
+			keys = '<leader>sb',
+			func = builtin.builtin,
+			opts = { desc = '[S]earch [B]uiltin Telescope' }
+		})
+
+		av.nmap({
+			keys = '<leader>sw',
+			func = builtin.grep_string,
+			opts = { desc = '[S]earch current [W]ord' }
+		})
+
+		-- INFO: Maybe replace with Trouble?
 		-- vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-		-- vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+
+		av.nmap({
+			keys = '<leader>sr',
+			func = builtin.resume,
+			opts = { desc = '[S]earch [R]esume' }
+		})
+
+		-- NOTE: Don't think I've ever used this one
 		-- vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-		-- vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-		-- -- searches all available commands that can be summoned by `:`
-		-- vim.keymap.set("n", "<leader>sc", builtin.commands, { desc = "[S]earch [c]ommands" })
+
+		-- searches all available commands that can be summoned by `:`
+		av.nmap({
+			keys = "<leader>sc",
+			func = builtin.commands,
+			opts = { desc = "[S]earch [C]ommands" }
+		})
 
 		-- -- Slightly advanced example of overriding default behavior and theme
 		av.nmap({
@@ -47,7 +76,7 @@ M.telescope = {
 					previewer = false,
 				})
 			end,
-			desc = '[/] Fuzzily search in current buffer'
+			opts = { desc = '[/] Fuzzily search in current buffer' }
 		})
 
 		-- Also possible to pass additional configuration options.
@@ -60,7 +89,7 @@ M.telescope = {
 					prompt_title = 'Live grep in cwd',
 				}
 			end,
-			desc = 'Grep CWD'
+			opts = { desc = 'Grep CWD' }
 		})
 
 		-- -- Shortcut for searching your neovim configuration files
@@ -69,7 +98,7 @@ M.telescope = {
 			func = function()
 				builtin.find_files { cwd = vim.fn.stdpath 'config' }
 			end,
-			desc = '[S]earch [N]eovim files'
+			opts = { desc = '[S]earch [N]eovim files' }
 		})
 	end
 }
