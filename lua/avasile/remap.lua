@@ -127,14 +127,6 @@ nmap({
 	opts = { desc = "[R]eplace [A]ll occurences under cursor" }
 })
 
--- These are plugin keymaps, shouldn't be here
--- -- Open fugitive to the side
--- vim.keymap.set("n", "<leader>G", "<cmd>vert Git<CR>", {})
--- -- Toggle unfotree
--- vim.keymap.set("n", "<leader>ut", "<cmd>UndotreeToggle<CR>", {})
--- -- Search project TODOs
--- vim.keymap.set('n', '<leader>sn', ":TodoTelescope<CR>", { noremap = true, desc = "[S]earch [N]otes" })
-
 -- Diagnostic keymaps
 -- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
 -- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
