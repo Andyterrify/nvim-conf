@@ -1,8 +1,5 @@
 local M = {}
 
-local av = require("avasile.utils")
-local nmap = av.nmap
-
 local keymaps = require("avasile.config.keymaps")
 
 M.search_project_files = function()
@@ -65,6 +62,8 @@ end
 -- [[ Lsp ]]
 local function lsp_setup()
 	M.lsp.enabled = true
+
+ 	vim.lsp.inlay_hint.enable() -- new, 0.10
 
 	-- where servers are setup and configured
 	require("avasile.config.lsp").mason_setup()
