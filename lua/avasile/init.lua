@@ -39,3 +39,5 @@ require("avasile.lazy")
 
 -- setup personal LSP prefs
 -- require("avasile.config.lsp").mason_setup()
+
+require("avasile.config.keymaps").diagnostics.setup()

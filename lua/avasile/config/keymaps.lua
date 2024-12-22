@@ -300,4 +300,14 @@ M.fugitive = {
 	end
 }
 
+M.diagnostics = {
+	setup = function()
+		av.nmap({
+			keys = "<leader>cd",
+			func = vim.diagnostic.open_float,
+			opts = { desc = "[C]ode [D]iagnostics" }
+		})
+	end
+}
+
 return M

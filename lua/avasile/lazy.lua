@@ -34,7 +34,7 @@ require("lazy").setup({
 	-- automatically check for plugin updates
 	checker = { enabled = false },
 	change_detection = { enabled = false }, -- no reason
-	pkg = { enabled = false },            -- some other package thing
+	pkg = { enabled = false },           -- some other package thing
 	rocks = { enabled = false },
 	performance = {
 		cache = { enabled = true },
