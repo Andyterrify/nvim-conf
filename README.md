@@ -1,3 +1,1 @@
-# Neovim configuration files
-
-Heavily inspired by ThePrimeagen
+Neovim conf
