@@ -12,69 +12,62 @@ local M = {}
 -- 	end
 -- end
 
-local server_config = {
-	lua_ls = {
-		settings = {
-			Lua = {
-				runtime = {
-					-- Specify that you're working with Neovim
-					version = 'LuaJIT', -- Neovim uses LuaJIT
-					path = vim.split(package.path, ';'),
-				},
-				diagnostics = {
-					-- Make sure to recognize Neovim globals like 'vim'
-					globals = { 'vim' },
-				},
-				workspace = {
-					-- Set workspace to recognize Neovim's runtime path
-					library = {
-						[vim.fn.expand('$VIMRUNTIME/lua')] = true,
-						[vim.fn.expand('$VIMRUNTIME/lua/vim')] = true,
-					},
-				},
-				telemetry = {
-					enable = false, -- Disable telemetry if you want
-				},
-			},
-		},
-	},
-	prettierd = {
-		-- cmd = { .. },
-		-- filetypes = { .. },
-		-- capabilities = { .. },
-		-- settings = { .. }
-	},
-	pyright = {},
-	ruff_lsp = {},
-	rust_analyzer = {},
-	taplo = {},
-	yamlls = {},
-}
+
+
+-- local function lsp_nmap(args)
+-- 	-- local buf storage
+-- 	-- local buf_opts = require "avasile.utils".buf_config(args.buffer)
+--
+-- 	for _, client in ipairs(args.buf_clients) do
+-- 		if client.supports_method(args.feat) then
+-- 			vim.notify("CONFIG: Server " .. client.name .. "supports feat " .. args.feat)
+-- 			require "avasile.utils".nmap({
+-- 				keys = args.keybind,
+-- 				func = args.fn,
+-- 				opts = {
+-- 					buffer = args.buffer,
+-- 					desc = args.desc
+-- 				}
+-- 			})
+-- 		else
+-- 			require "avasile.utils".nmap({
+-- 				keys = args.keybind,
+-- 				func = function() print("Feat '" .. args.feat .. "'Not supported") end,
+-- 				opts = {
+-- 					buffer = args.buffer,
+-- 					desc = "Server Not Implemented"
+-- 				}
+-- 			})
+-- 		end
+-- 	end
+-- end
 
 function M.mason_setup()
 	local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 	local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
 	lsp_capabilities = vim.tbl_deep_extend('force', lsp_capabilities, cmp_capabilities)
 
+
 	require('mason').setup()
 	require('mason-lspconfig').setup {
 		handlers = {
 			function(server_name)
-				local server = server_config[server_name] or {}
+				local server_opts = server_config[server_name] or {}
 				-- This handles overriding only values explicitly passed
 				-- by the server configuration above. Useful when disabling
 				-- certain features of an LSP (for example, turning off formatting for tsserver)
 
 				-- use configured capabilities (if they exist) or create
-				server.capabilities = server.capabilities or lsp_capabilities
+				server_opts.capabilities = server_opts.capabilities or lsp_capabilities
 
-				require('lspconfig')[server_name].setup(server)
+				require('lspconfig')[server_name].setup(server_opts)
 			end,
 		},
 	}
+
+	require("lspconfig").rust_analyzer.setup {}
 end
 
-return M
 
 -- M.setup = function()
 -- 	-- vim.diagnostic.config({ virtual_text = true })
@@ -125,3 +118,5 @@ return M
 -- 		},
 -- 	}
 -- end
+
+

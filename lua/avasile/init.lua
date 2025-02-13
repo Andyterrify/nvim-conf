@@ -1,6 +1,5 @@
 -- makes working with config much easier
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
-	group = AvNvimConfig,
 	pattern = { "*.lua" },
 	desc = "Add eval as Lua keymaps for config work",
 	callback = function(ev)
@@ -16,18 +15,6 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	end
 })
 
--- deleted whitespace at the end of lines and moves cursor back
--- where it was before the search replace
-vim.api.nvim_create_autocmd('BufWritePre', {
-	group = AvWhitespace,
-	desc = "Automatically remove EOL whitespace",
-	pattern = "*",
-	callback = function(ev)
-		local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-		vim.cmd([[%s/\s\+$//e]])
-		vim.api.nvim_win_set_cursor(0, { row, col })
-	end
-})
 
 
 -- setup neovim opts and keymaps
@@ -41,3 +28,7 @@ require("avasile.lazy")
 -- require("avasile.config.lsp").mason_setup()
 
 require("avasile.config.keymaps").diagnostics.setup()
+
+vim.g.avasile = {
+	buffer_opts = {}
+}

@@ -105,188 +105,12 @@ M.telescope = {
 
 M.lsp = {
 	setup = function(event)
-		local lsp_clients = vim.lsp.get_clients({ bufnr = event.buf })
-		-- grr gra grn gri i_CTRL-S Some keymaps are created unconditionally when Nvim starts:
-		-- "grn" is mapped in Normal mode to vim.lsp.buf.rename()
-		-- "gra" is mapped in Normal and Visual mode to vim.lsp.buf.code_action()
-		-- "grr" is mapped in Normal mode to vim.lsp.buf.references()
-		-- "gri" is mapped in Normal mode to vim.lsp.buf.implementation()
-		-- "gO" is mapped in Normal mode to vim.lsp.buf.document_symbol()
-		-- CTRL-S is mapped in Insert mode to vim.lsp.buf.signature_help()
-
-		-- local opts = { buffer = e.buf }
-		-- vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
-		-- vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-		-- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-		-- vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-		-- vim.keymap.set("n", "<leader>vc", function() vim.lsp.buf.code_action() end, opts)
-		-- vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-		-- vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-		-- vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-
-		-- INFO: textDocument
-		-- Opens a popup that displays documentation about the word under your cursor
-		--  See `:help K` for why this keymap
-		av.lsp_nmap({
-			keybind     = "K",
-			buf_clients = lsp_clients,
-			feat        = "textDocument/hover",
-			fn          = vim.lsp.buf.hover,
-			buffer      = event.buf,
-			desc        = 'Hover'
-		})
-		-- <leader>f	Format
-		av.lsp_nmap({
-			keybind     = "<leader>f",
-			buf_clients = lsp_clients,
-			feat        = "textDocument/formatting",
-			fn          = vim.lsp.buf.format,
-			buffer      = event.buf,
-			desc        = '[F]ormat buffer'
-		})
-		-- <leader>rn	Rename the variable under your cursor
-		av.lsp_nmap({
-			keybind     = '<leader>rn',
-			buf_clients = lsp_clients,
-			feat        = "textDocument/rename",
-			fn          = vim.lsp.buf.rename,
-			buffer      = event.buf,
-			desc        = '[R]e[n]ame'
-		})
-		-- <leader>ca	Execute a code action
-		av.lsp_nmap({
-			keybind     = '<leader>ca',
-			buf_clients = lsp_clients,
-			feat        = "textDocument/codeAction",
-			fn          = vim.lsp.buf.code_action,
-			buffer      = event.buf,
-			desc        = '[C]ode [A]ction'
-		})
-		-- WARN: This is not Goto Definition, this is Goto Declaration. For example, in C this would take you to the header
-		av.lsp_nmap({
-			keybind     = 'gD',
-			buf_clients = lsp_clients,
-			feat        = "textDocument/declaration",
-			fn          = vim.lsp.buf.declaration,
-			buffer      = event.buf,
-			desc        = '[G]oto [D]eclaration'
-		})
-
-		if require("avasile.config.plugins").telescope.enabled then
-			-- gd	view definitions
-			av.lsp_nmap({
-				keybind     = 'gd',
-				buf_clients = lsp_clients,
-				feat        = "textDocument/definition",
-				fn          = require('telescope.builtin').lsp_definitions,
-				buffer      = event.buf,
-				desc        = '[G]oto [D]efinition'
-			})
-			-- gr	Find references for the word under your cursor.
-			av.lsp_nmap({
-				keybind     = 'gr',
-				buf_clients = lsp_clients,
-				feat        = "textDocument/references",
-				fn          = require('telescope.builtin').lsp_references,
-				buffer      = event.buf,
-				desc        = '[G]oto [R]eferences'
-			})
-			-- gI	Jump to the implementation of the word under your cursor.
-			av.lsp_nmap({
-				keybind     = 'gI',
-				buf_clients = lsp_clients,
-				feat        = "textDocument/implementation",
-				fn          = require('telescope.builtin').lsp_implementations,
-				buffer      = event.buf,
-				desc        = '[G]oto [I]mplementation'
-			})
-			-- <leader>D	Jump to the type of the word under your cursor.
-			av.lsp_nmap({
-				keybind     = '<leader>D',
-				buf_clients = lsp_clients,
-				feat        = "textDocument/typeDefinition",
-				fn          = require('telescope.builtin').lsp_type_definitions,
-				buffer      = event.buf,
-				desc        = 'Type [D]efinition'
-			})
-			-- <leader>ds	Fuzzy find all the symbols in your current document. Symbols are things like variables, functions, types, etc.
-			av.lsp_nmap({
-				keybind     = '<leader>ds',
-				buf_clients = lsp_clients,
-				feat        = "textDocument/documentSymbol",
-				fn          = require('telescope.builtin').lsp_document_symbols,
-				buffer      = event.buf,
-				desc        = '[D]ocument [S]ymbols'
-			})
-
-			-- INFO: workspace
-			-- Fuzzy find all the symbols in your current workspace
-			--  Similar to document symbols, except searches over your whole project.
-			av.lsp_nmap({
-				keybind     = '<leader>ws',
-				buf_clients = lsp_clients,
-				feat        = "workspace.symbol",
-				fn          = require('telescope.builtin').lsp_dynamic_workspace_symbols,
-				buffer      = event.buf,
-				desc        = '[W]orkspace [S]ymbols'
-			})
-		else
-			av.nmap({
-				keys = 'gd',
-				func = function() print("Telescope not Enabled") end,
-				opts = {
-					buffer = event.buf,
-					desc = "Telescope Disabled"
-				}
-			})
-			av.nmap({
-				keys = 'gr',
-				func = function() print("Telescope not Enabled") end,
-				opts = {
-					buffer = event.buf,
-					desc = "Telescope Disabled"
-				}
-			})
-			av.nmap({
-				keys = 'gI',
-				func = function() print("Telescope not Enabled") end,
-				opts = {
-					buffer = event.buf,
-					desc = "Telescope Disabled"
-				}
-			})
-			av.nmap({
-				keys = '<leader>D',
-				func = function() print("Telescope not Enabled") end,
-				opts = {
-					buffer = event.buf,
-					desc = "Telescope Disabled"
-				}
-			})
-			av.nmap({
-				keys = '<leader>ds',
-				func = function() print("Telescope not Enabled") end,
-				opts = {
-					buffer = event.buf,
-					desc = "Telescope Disabled"
-				}
-			})
-			av.nmap({
-				keys = '<leader>ws',
-				func = function() print("Telescope not Enabled") end,
-				opts = {
-					buffer = event.buf,
-					desc = "Telescope Disabled"
-				}
-			})
-		end
-
-
 		-- The following two autocommands are used to highlight references of the
 		-- word under your cursor when your cursor rests there for a little while.
 		--    See `:help CursorHold` for information about when this is executed
 		--
 		-- When you move your cursor, the highlights will be cleared
+		require "avasile.config.lsp".autocmd_keymap_config(event)
 	end
 }
 
@@ -309,5 +133,112 @@ M.diagnostics = {
 		})
 	end
 }
+
+-- List of keybinds that apply specifically to buffers
+M.lsp_buffer_keybinds = function()
+	return {
+		-- grr gra grn gri i_CTRL-S Some keymaps are created unconditionally when Nvim starts:
+		-- "grn" is mapped in Normal mode to vim.lsp.buf.rename()
+		-- "gra" is mapped in Normal and Visual mode to vim.lsp.buf.code_action()
+		--
+		-- "grr" is mapped in Normal mode to vim.lsp.buf.references()
+		-- "gri" is mapped in Normal mode to vim.lsp.buf.implementation()
+		-- "gO" is mapped in Normal mode to vim.lsp.buf.document_symbol()
+		-- CTRL-S is mapped in Insert mode to vim.lsp.buf.signature_help()
+
+		-- local opts = { buffer = e.buf }
+		-- vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
+		-- vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+		-- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+		-- vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+		-- vim.keymap.set("n", "<leader>vc", function() vim.lsp.buf.code_action() end, opts)
+		-- vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+		-- vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+		-- vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+		-- LSP only keybinds. Server('s) must support the features [key] to enable the keybind [value]
+		["textDocument/hover"] = {
+			keybind = "K",
+			fn      = vim.lsp.buf.hover,
+			desc    = 'Hover',
+			on      = "lsp"
+		},
+		["textDocument/formatting"] = {
+			-- <leader>f	Format
+			keybind = "<leader>f",
+			fn      = vim.lsp.buf.format,
+			desc    = '[F]ormat buffer',
+			on      = "lsp"
+		},
+		["textDocument/rename"] = {
+			-- <leader>rn	Rename the variable under your cursor
+			keybind = '<leader>rn',
+			fn      = vim.lsp.buf.rename,
+			desc    = '[R]e[n]ame',
+			on      = "lsp"
+		},
+		["textDocument/codeAction"] = {
+			-- <leader>ca	Execute a code action
+			keybind = '<leader>ca',
+			fn      = vim.lsp.buf.code_action,
+			desc    = '[C]ode [A]ction',
+			on      = "lsp"
+		},
+		["textDocument/declaration"] = {
+			-- WARN: This is not Goto Definition, this is Goto Declaration. For example, in C this would take you to the header
+			keybind = 'gD',
+			fn      = vim.lsp.buf.declaration,
+			desc    = '[G]oto [D]eclaration',
+			on      = "lsp"
+		},
+		-- WARN: the following use telescope
+		["textDocument/definition"] = {
+			keybind = 'gd',
+			fn      = require('telescope.builtin').lsp_definitions,
+			desc    = '[G]oto [D]efinition',
+			on      = "telescope"
+		},
+		["textDocument/references"] = {
+			keybind = 'gr',
+			fn      = require('telescope.builtin').lsp_references,
+			desc    = '[G]oto [R]eferences',
+			on      = "telescope",
+		},
+		-- gI	Jump to the implementation of the word under your cursor.
+		["textDocument/implementation"] = {
+			keybind = 'gI',
+			fn      = require('telescope.builtin').lsp_implementations,
+			desc    = '[G]oto [I]mplementation',
+			on      = "telescope",
+		},
+		-- <leader>D	Jump to the type of the word under your cursor.
+		["textDocument/typeDefinition"] = {
+			keybind = '<leader>D',
+			fn      = require('telescope.builtin').lsp_type_definitions,
+			desc    = 'Type [D]efinition',
+			on      = "telescope",
+		},
+		-- <leader>ds	Fuzzy find all the symbols in your current document. Symbols are things like variables, functions, types, etc.
+		["textDocument/documentSymbol"] = {
+			keybind = '<leader>ds',
+			fn      = require('telescope.builtin').lsp_document_symbols,
+			desc    = '[D]ocument [S]ymbols',
+			on      = "telescope",
+		},
+
+		-- INFO: workspace
+		-- Fuzzy find all the symbols in your current workspace
+		--  Similar to document symbols, except searches over your whole project.
+		["workspace/symbol"] = {
+			keybind = '<leader>ws',
+			fn      = require('telescope.builtin').lsp_dynamic_workspace_symbols,
+			desc    = '[W]orkspace [S]ymbols',
+			on      = "telescope",
+		},
+	}
+end
+
+
+
 
 return M

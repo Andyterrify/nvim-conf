@@ -15,14 +15,15 @@ vim.opt.ruler = true
 vim.opt.relativenumber = true
 
 -- Display columns in buffer to indicate line length
-vim.opt.colorcolumn = "88,120"
+-- vim.opt.colorcolumn = "88,120"
+vim.opt.colorcolumn = "112"
 
 -- Don't show the mode, since it's already in status line
 -- vim.opt.showmode = false
 
 -- highlight the line the cursor is on
 vim.opt.cursorline = true
-vim.opt.cursorcolumn = true
+-- vim.opt.cursorcolumn = true
 
 -- Enable mouse mode
 vim.opt.mouse = 'a'
@@ -37,7 +38,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.wo.signcolumn = 'number'
+vim.wo.signcolumn = 'yes'
 
 -- -- Decrease update time
 -- vim.opt.updatetime = 250
@@ -92,6 +93,7 @@ vim.opt.smartindent = true
 -- NOTE: on idea
 -- vim.opt.isfname:append("@-@")
 
+vim.g.netrw_banner = 1
 vim.g.netrw_browse_split = 0
-vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
+vim.g.netrw_liststyle = 3

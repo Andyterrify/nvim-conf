@@ -1,13 +1,8 @@
 return {
-	"nvim-lua/plenary.nvim",
 	{
-		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
-		dependencies = {
-			'nvim-lua/plenary.nvim'
-		},
-		config = require("avasile.config.plugins").harpoon.setup
+		"nvim-lua/plenary.nvim",
 	},
+
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -26,20 +21,29 @@ return {
 		config = require("avasile.config.plugins").telescope.setup
 	},
 	{
-		"neovim/nvim-lspconfig",
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
 		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			"hrsh7th/cmp-nvim-lsp",
-			"j-hui/fidget.nvim",
+			'nvim-lua/plenary.nvim',
+			"nvim-telescope/telescope.nvim",
 		},
-		-- event = "VeryLazy",
-		config = require("avasile.config.plugins").lsp.setup
+		config = require("avasile.config.plugins").harpoon.setup
 	},
+	{
+		"j-hui/fidget.nvim",
+		config = require("avasile.config.plugins").fidget.setup
+	},
+
+
+	{
+		"williamboman/mason.nvim",
+		lazy = false,
+		opts = {}
+	},
+
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
-			"neovim/nvim-lspconfig",
 			'hrsh7th/cmp-nvim-lsp',
 			'hrsh7th/cmp-buffer',
 			'hrsh7th/cmp-path',
@@ -47,5 +51,21 @@ return {
 			"onsails/lspkind.nvim",
 		},
 		config = require("avasile.config.plugins").cmp.setup
+	},
+
+	{
+		"neovim/nvim-lspconfig",
+		cmp = {"LspInfo", "LspInstall", "LspStart"},
+		event = {"BufReadPre", "BufNewFile"},
+		dependencies = {
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"hrsh7th/cmp-nvim-lsp",
+			"j-hui/fidget.nvim",
+		},
+		init = function ()
+			vim.opt.signcolumn = "yes"
+		end,
+		config = require("avasile.config.plugins").lsp.setup
 	},
 }
