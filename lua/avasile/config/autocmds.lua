@@ -4,7 +4,6 @@ M.lsp = {
 	setup = function()
 		vim.api.nvim_create_autocmd('LspAttach', {
 			callback = function(event)
-				print"callback"
 				local c = vim.lsp.get_client_by_id(event.data.client_id)
 				if not c then return end
 
@@ -40,13 +39,6 @@ M.lsp = {
 				vim.api.nvim_win_set_cursor(0, { row, col })
 			end
 		})
-
-		-- Delete local buffer opts when a new buffer is closed
-		-- vim.api.nvim_create_autocmd('BufDelete', {
-		-- 	callback = function(event)
-		-- 		require "avasile.utils".delete_buffer_opts(event.buffer)
-		-- 	end
-		-- })
 	end
 }
 return M

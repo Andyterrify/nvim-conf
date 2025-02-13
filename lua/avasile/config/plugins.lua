@@ -40,6 +40,9 @@ M.telescope = {
 				},
 			},
 			defaults = {
+				path_display ={
+					shorten = 2,
+				},
 				layout_strategy = "vertical",
 				layout_config = {
 					vertical = {
