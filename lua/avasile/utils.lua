@@ -14,10 +14,10 @@ function M.nmap(args)
 	local o = vim.tbl_deep_extend(
 		'force',
 		{ desc = 'DEFAULT: No Command Desc' },
-		args.opts or {}
+		args[3] or {}
 	)
 
-	vim.keymap.set("n", args.keys, args.func, o)
+	vim.keymap.set("n", args[1], args[2], o)
 end
 
 -- global config to share

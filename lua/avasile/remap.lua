@@ -5,16 +5,13 @@ vim.g.maplocalleader = ' '
 local nmap = require("avasile.utils").nmap
 
 -- Clear search highlight when pressing <ESC> in normal mode
-nmap({
-	keys = '<Esc>',
-	func = '<cmd>nohlsearch<CR>',
-})
+nmap({'<Esc>', '<cmd>nohlsearch<CR>'})
 
 -- open netrw
 nmap({
-	keys = "<leader>pv",
-	func = vim.cmd.Ex,
-	opts = { desc = '[P]roject [V]iew' }
+	"<leader>pv",
+	vim.cmd.Ex,
+	{ desc = '[P]roject [V]iew' }
 })
 
 -- faster line movement
@@ -27,49 +24,49 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", {})
 -- when linewrap it will navigate the entire wrapped line rather than the visual
 -- lines, easier/faster to navigate
 nmap({
-	keys = 'k',
-	func = "v:count == 0 ? 'gk' : 'k'",
-	opts = { expr = true, silent = false }
+	'k',
+	"v:count == 0 ? 'gk' : 'k'",
+	{ expr = true, silent = false }
 })
 
 nmap({
-	keys = 'j',
-	func = "v:count == 0 ? 'gj' : 'j'",
-	opts = { expr = true, silent = false }
+	'j',
+	"v:count == 0 ? 'gj' : 'j'",
+	{ expr = true, silent = false }
 })
 
 -- quicker buffers
 nmap({
-	keys = '<C-m>',
-	func = ":bn<CR>",
-	opts = { noremap = true, desc = "Next Buffer" }
+	'<C-m>',
+	":bn<CR>",
+	{ noremap = true, desc = "Next Buffer" }
 })
 nmap({
-	keys = '<C-n>',
-	func = ":bp<CR>",
-	opts = { noremap = true, desc = "Previous Buffer" }
+	'<C-n>',
+	":bp<CR>",
+	{ noremap = true, desc = "Previous Buffer" }
 })
 
 -- quicker window navigation, like Alt+<hjkl> on tmux
 nmap({
-	keys = '<C-h>',
-	func = '<C-w><C-h>',
-	opts = { desc = 'Move focus to the left window' }
+	'<C-h>',
+	'<C-w><C-h>',
+	{ desc = 'Move focus to the left window' }
 })
 nmap({
-	keys = '<C-l>',
-	func = '<C-w><C-l>',
-	opts = { desc = 'Move focus to the right window' }
+	'<C-l>',
+	'<C-w><C-l>',
+	{ desc = 'Move focus to the right window' }
 })
 nmap({
-	keys = '<C-j>',
-	func = '<C-w><C-j>',
-	opts = { desc = 'Move focus to the lower window' }
+	'<C-j>',
+	'<C-w><C-j>',
+	{ desc = 'Move focus to the lower window' }
 })
 nmap({
-	keys = '<C-k>',
-	func = '<C-w><C-k>',
-	opts = { desc = 'Move focus to the upper window' }
+	'<C-k>',
+	'<C-w><C-k>',
+	{ desc = 'Move focus to the upper window' }
 })
 
 -- Faster exit
@@ -79,18 +76,18 @@ vim.keymap.set("i", "jk", "<Esc>", { desc = "Esc" })
 -- joins, then jumps back to prev position. tldr doesn't move cursor to end of line
 -- when splitting
 nmap({
-	keys = "J",
-	func = "mzJ`z"
+	"J",
+	"mzJ`z"
 })
 
 -- when searching, center the selection
 nmap({
-	keys = "n",
-	func = "nzzzv"
+	"n",
+	"nzzzv"
 })
 nmap({
-	keys = "N",
-	func = "Nzzzv"
+	"N",
+	"Nzzzv"
 })
 
 -- greatest remap ever
@@ -102,14 +99,14 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- -- yanks into system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 nmap({
-	keys = "<leader>Y",
-	func = [["+Y]]
+	"<leader>Y",
+	[["+Y]]
 })
 
 -- to avoid EX mode?
 nmap({
-	keys = "Q",
-	func = "<nop>"
+	"Q",
+	"<nop>"
 })
 
 -- -- lsp specific format
@@ -122,9 +119,9 @@ nmap({
 -- search and modify all occurendes of the word under cursor
 -- respects case I believe
 nmap({
-	keys = "<leader>ra",
-	func = [[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]],
-	opts = { desc = "[R]eplace [A]ll occurences under cursor" }
+	"<leader>ra",
+	[[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]],
+	{ desc = "[R]eplace [A]ll occurences under cursor" }
 })
 
 -- Diagnostic keymaps

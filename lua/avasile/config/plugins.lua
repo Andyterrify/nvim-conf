@@ -234,44 +234,6 @@ M.fidget = {
 	end
 }
 
-
-local function nmap(kb, fn, opts)
-	vim.keymap.set('n', kb, fn, opts)
-end
-
-local function setup_lsp_keybinds(client)
-	local keybinds = {
-		["hoverProvider"] = { "K", vim.lsp.buf.hover, { desc = "Hover" } },
-		["documentFormattingProvider"] = { "<leader>f", vim.lsp.buf.format, { desc = "[F]ormat buffer" } },
-		["renameProvider"] = { "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[n]ame" } },
-		["codeActionProvider"] = { "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" } },
-		-- ["declarationProvider"] = { "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" } },
-
-		-- WARN: the following SHOULD use telescope
-		["definitionProvider"] = { "gd", vim.lsp.buf.definition, { desc = "[G]oto Definition" } },
-		["referencesProvider"] = { "gr", vim.lsp.buf.references, { desc = "[G]oto References" } },
-		["implementationProvider"] = { "gr", vim.lsp.buf.implementation, { desc = "[G]oto Implementation" } },
-		["typeDefinitionProvider"] = { "gD", vim.lsp.buf.type_definition, { desc = "[G]oto Type Definition" } },
-		["documentSymbolProvider"] = { "<leader>lw", vim.lsp.buf.document_symbol, { desc = "Document Symbols" } },
-		["workspaceSymbolProvider"] = { "<leader>ws", vim.lsp.buf.workspace_symbol, { desc = "Workspace Symbols" } },
-	}
-
-	for key, v in pairs(keybinds) do
-		if client.server_capabilities[key] then
-			nmap(v[1], v[2], v[3])
-		else
-			nmap(v[1], function() vim.notify("" .. key .. " not Supported by " .. client.name) end, v[3])
-		end
-	end
-
-	nmap("<leader>th", function()
-		local new_state = not vim.lsp.inlay_hint.is_enabled()
-		require("fidget").notify(string.format("Toggle Inlay Hints (%s)", tostring(new_state)))
-		vim.lsp.inlay_hint.enable(new_state)
-	end
-	, { desc = "Toggle Inlay Hints" })
-end
-
 -- ####################################
 -- Table containing config for language servers
 -- If you need more custom tuning refer to
@@ -320,76 +282,48 @@ local user_lsp_config = {
 -- [[ Lsp ]]
 M.lsp = {
 	setup = function()
+		-- NOTE: if you are looking for keybinds check config.keymaps.lsp
+		-- which contains the table of feature -> keybind as well as the funtion
+		-- to register the keymap
+		require("avasile.config.autocmds").lsp.setup()
+
 		vim.lsp.inlay_hint.enable() -- new, 0.10
 
 		-- where servers are setup and configured
-		local mason_setup = function()
-			local lspconfig = require("lspconfig")
-			local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-			lsp_capabilities = vim.tbl_deep_extend('force', lsp_capabilities, cmp_capabilities)
+		local lspconfig = require("lspconfig")
 
-			local setup_lsp_server = function(server_name)
-				local server_opts = user_lsp_config[server_name] or {}
-				-- This handles overriding only values explicitly passed
-				-- by the server configuration above. Useful when disabling
-				-- certain features of an LSP (for example, turning off formatting for tsserver)
+		local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+		local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+		lsp_capabilities = vim.tbl_deep_extend('force', lsp_capabilities, cmp_capabilities)
 
-				-- use configured capabilities (if they exist) or create
-				server_opts.capabilities = server_opts.capabilities or lsp_capabilities
+		local setup_lsp_server = function(server_name)
+			local server_opts = user_lsp_config[server_name] or {}
+			-- This handles overriding only values explicitly passed
+			-- by the server configuration above. Useful when disabling
+			-- certain features of an LSP (for example, turning off formatting for tsserver)
 
-				lspconfig[server_name].setup(server_opts)
-			end
+			-- use configured capabilities (if they exist) or create
+			server_opts.capabilities = server_opts.capabilities or lsp_capabilities
 
-			require('mason').setup()
-			require('mason-lspconfig').setup {
-				-- LSP servers we 100% want available
-				ensure_installed = { 'lua_ls', 'rust_analyzer' },
-				-- default fn for servers
-				automatic_installation = false,
-				handlers = {
-					-- could we have another fn to setup keybinds??
-					function(server_name)
-						setup_lsp_server(server_name)
-					end,
-				},
-			}
-			setup_lsp_server("pyright")
+			lspconfig[server_name].setup(server_opts)
 		end
 
-		-- where server autoload is setup
-		local autocmds = function()
-			vim.api.nvim_create_autocmd('LspAttach', {
-				callback = function(event)
-					local c = vim.lsp.get_client_by_id(event.data.client_id)
-					if not c then return end
-
-					vim.notify("LspAttach AutoCmd by (" .. c.name .. ")")
-
-					-- not needed anymore
-					-- require "avasile.config.lsp".setup(event)
-
-					-- setup keybinds for LSP
-					setup_lsp_keybinds(c)
-
-					-- nice hover functionality
-					if c and c.server_capabilities.documentHighlightProvider then
-						vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-							buffer = event.buf,
-							callback = vim.lsp.buf.document_highlight,
-						})
-
-						vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-							buffer = event.buf,
-							callback = vim.lsp.buf.clear_references,
-						})
-					end
-				end
-			})
-		end
-
-		mason_setup()
-		autocmds()
+		-- mason servers
+		require('mason').setup()
+		require('mason-lspconfig').setup {
+			-- LSP servers we 100% want available
+			ensure_installed = { 'lua_ls', 'rust_analyzer' },
+			-- default fn for servers
+			automatic_installation = false,
+			handlers = {
+				-- could we have another fn to setup keybinds??
+				function(server_name)
+					setup_lsp_server(server_name)
+				end,
+			},
+		}
+		-- non-mason servers
+		setup_lsp_server("pyright")
 	end
 }
 

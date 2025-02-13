@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 			vim.keymap.set("n", "<space><space>x", "<cmd>source %<CR>")
 			vim.keymap.set("n", "<space>x", ":.lua <CR>")
 			vim.keymap.set("v", "<space>x", ":lua <CR>")
-			print("Loaded Lua eval maps")
+			-- print("Loaded Lua eval maps")
 			return true
 		end
 		return false
@@ -26,8 +26,6 @@ require("avasile.lazy")
 
 -- setup personal LSP prefs
 -- require("avasile.config.lsp").mason_setup()
-
-require("avasile.config.keymaps").diagnostics.setup()
 
 vim.g.avasile = {
 	buffer_opts = {}

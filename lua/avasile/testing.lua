@@ -11,4 +11,6 @@ local x = require "avasile.utils".get_buffer_opts(1)
 -- vim.print(vim.g.avasile)
 -- vim.print(x.lsp_feats())
 -- vim.print(vim.g.avasile)
-vim.print(x.lsp_feats())
+
+local table = {}
+vim.print(table[0])
