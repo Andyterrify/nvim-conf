@@ -4,11 +4,6 @@ local M = {}
 local keymaps = require("avasile.config.keymaps")
 
 M.search_project_files = function()
-	if not M.telescope.enabled then
-		print("telescope is not enabled")
-		return
-	end
-
 	local builtin = require("telescope.builtin")
 	builtin.find_files()
 end
@@ -40,10 +35,10 @@ M.telescope = {
 				},
 			},
 			defaults = {
-				path_display ={
-					shorten = 2,
+				path_display = {
+					shorten = 3,
 				},
-				layout_strategy = "vertical",
+				-- layout_strategy = "vertical",
 				layout_config = {
 					vertical = {
 						width = 0.8,
@@ -55,12 +50,10 @@ M.telescope = {
 				sorting_strategy = "ascending"
 			},
 		})
-		-- mark telescope as enabled in local conf
-		M.telescope.enabled = true
 
 		-- Enable telescope extensions, if they are installed
 		pcall(require('telescope').load_extension, 'fzf')
-		pcall(require('telescope').load_extension, 'ui-select')
+		-- pcall(require('telescope').load_extension, 'ui-select')
 
 		keymaps.telescope.setup()
 	end
@@ -96,10 +89,10 @@ M.cmp = {
 				})
 			},
 			completion = { completeopt = 'menu,menuone,noinsert' },
-			window = {
-				completion = cmp.config.window.bordered(),
-				documentation = cmp.config.window.bordered(),
-			},
+			-- window = {
+			-- 	completion = cmp.config.window.bordered(),
+			-- 	documentation = cmp.config.window.bordered(),
+			-- },
 
 			-- For an understanding of why these mappings were
 			-- chosen, you will need to read `:help ins-completion`
@@ -156,14 +149,14 @@ M.treesitter = {
 	setup = function()
 		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
-				"c",
+				-- "c",
 				"lua",
 				"rust",
-				"bash",
+				-- "bash",
 				"diff",
 				"html",
 				"javascript",
-				"jsdoc",
+				-- "jsdoc",
 				"json",
 				"jsonc",
 				"luadoc",
@@ -171,16 +164,17 @@ M.treesitter = {
 				"markdown",
 				"markdown_inline",
 				"python",
-				"query",
-				"regex",
-				"toml",
-				"tsx",
-				"typescript",
+				-- "query",
+				-- "regex",
+				-- "toml",
+				-- "tsx",
+				-- "typescript",
 				"vim",
 				"vimdoc",
 				"yaml",
 			},
 
+			sync_install = true,
 			auto_install = true,
 
 			highlight = {

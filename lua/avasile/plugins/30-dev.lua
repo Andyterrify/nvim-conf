@@ -14,9 +14,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			'nvim-tree/nvim-web-devicons',
-			"nvim-treesitter/nvim-treesitter",
-			'nvim-telescope/telescope-ui-select.nvim',
-			{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+			-- { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
 		},
 		config = require("avasile.config.plugins").telescope.setup
 	},
@@ -55,15 +53,15 @@ return {
 
 	{
 		"neovim/nvim-lspconfig",
-		cmp = {"LspInfo", "LspInstall", "LspStart"},
-		event = {"BufReadPre", "BufNewFile"},
+		cmp = { "LspInfo", "LspInstall", "LspStart" },
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			"j-hui/fidget.nvim",
 		},
-		init = function ()
+		init = function()
 			vim.opt.signcolumn = "yes"
 		end,
 		config = require("avasile.config.plugins").lsp.setup
