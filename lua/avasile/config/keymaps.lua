@@ -124,12 +124,12 @@ M.lsp = function(client)
 		-- ["declarationProvider"] = { "gD", vlb.declaration, { desc = "[G]oto [D]eclaration" } },
 
 		-- WARN: the following SHOULD use telescope
-		["definitionProvider"] = { "gd", vlb.definition, { desc = "[G]oto Definition" } },
-		["referencesProvider"] = { "gr", vlb.references, { desc = "[G]oto References" } },
-		["implementationProvider"] = { "gr", vlb.implementation, { desc = "[G]oto Implementation" } },
-		["typeDefinitionProvider"] = { "gD", vlb.type_definition, { desc = "[G]oto Type Definition" } },
-		["documentSymbolProvider"] = { "<leader>lw", vlb.document_symbol, { desc = "Document Symbols" } },
-		["workspaceSymbolProvider"] = { "<leader>ws", vlb.workspace_symbol, { desc = "Workspace Symbols" } },
+		["definitionProvider"] = { "gd", function () require("telescope.builtin").lsp_definitions() end, { desc = "[G]oto Definition" } },
+		["referencesProvider"] = { "gr", function () require("telescope.builtin").lsp_references() end, { desc = "[G]oto References" } },
+		["implementationProvider"] = { "gr", function () require("telescope.builtin").lsp_implementations() end, { desc = "[G]oto Implementation" } },
+		["typeDefinitionProvider"] = { "gD", function () require("telescope.builtin").lsp_type_definitions() end, { desc = "[G]oto Type Definition" } },
+		["documentSymbolProvider"] = { "<leader>lw", function () require("telescope.builtin").lsp_document_symbols() end, { desc = "Document Symbols" } },
+		["workspaceSymbolProvider"] = { "<leader>ws", function () require("telescope.builtin").lsp_dynamic_workspace_symbols() end, { desc = "Workspace Symbols" } },
 	}
 
 	for key, v in pairs(keybinds) do
