@@ -5,7 +5,7 @@ vim.g.maplocalleader = ' '
 local nmap = require("avasile.utils").nmap
 
 -- Clear search highlight when pressing <ESC> in normal mode
-nmap({'<Esc>', '<cmd>nohlsearch<CR>'})
+nmap({ '<Esc>', '<cmd>nohlsearch<CR>' })
 
 -- open netrw
 nmap({
@@ -123,6 +123,10 @@ nmap({
 	[[:%s/\<<C-r><C-w>\>//gI<Left><Left><Left>]],
 	{ desc = "[R]eplace [A]ll occurences under cursor" }
 })
+
+-- terminal shortcut
+-- makes exiting terminal easier
+vim.keymap.set('t', '<ESC>', "<C-\\><C-n>")
 
 -- Diagnostic keymaps
 -- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
