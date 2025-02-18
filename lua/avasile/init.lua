@@ -23,6 +23,7 @@ require("avasile.remap")
 
 -- setup plugin
 require("avasile.lazy")
+require("avasile.config.autocmds").qol.setup()
 
 -- setup personal LSP prefs
 -- require("avasile.config.lsp").mason_setup()
