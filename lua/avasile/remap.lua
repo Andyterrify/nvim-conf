@@ -47,6 +47,17 @@ nmap({
 	{ noremap = true, desc = "Previous Buffer" }
 })
 
+nmap({
+	'<C-,>',
+	":tabnext<CR>",
+	{ noremap = true, desc = "Next Tab" }
+})
+nmap({
+	'<C-.>',
+	":tabprevious<CR>",
+	{ noremap = true, desc = "Previous Tab" }
+})
+
 -- quicker window navigation, like Alt+<hjkl> on tmux
 nmap({
 	'<C-h>',
