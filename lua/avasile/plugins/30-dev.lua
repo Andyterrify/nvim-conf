@@ -68,7 +68,7 @@ return {
 
 	{
 		'nvim-telescope/telescope-fzf-native.nvim',
-		cond = vim.g.is_personal,
+		-- cond = vim.g.is_personal,
 		build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release',
 	},
 
