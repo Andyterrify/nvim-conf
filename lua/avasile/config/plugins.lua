@@ -218,6 +218,13 @@ M.fugitive = {
 	end
 }
 
+-- -- [[ Snacks ]]
+-- M.snacks = {
+-- 	setup = function()
+-- 		keymaps.snacks.setup()
+-- 	end
+-- }
+
 -- [[ Fidget ]]
 M.fidget = {
 	enabled = false,

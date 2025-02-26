@@ -101,6 +101,12 @@ nmap({
 	"Nzzzv"
 })
 
+nmap({
+    '<C-8>',
+    [[m`:%s/\<<C-r><C-w>\>//n<CR>``]],
+    { desc = 'Do `*` but stay on current match and preserve window scroll position' }
+})
+
 -- greatest remap ever
 -- allows to select text and paste what's in " reg and deleting what's
 -- selected
