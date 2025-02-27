@@ -20,11 +20,18 @@ return {
 	-- 	opts = {},
 	-- },
 	-- lua/plugins/rose-pine.lua
+	-- {
+	-- 	"rose-pine/neovim",
+	-- 	name = "rose-pine",
+	-- 	config = function()
+	-- 		vim.cmd("colorscheme rose-pine")
+	-- 	end
+	-- },
 	{
-		"rose-pine/neovim",
-		name = "rose-pine",
+		"ayu-theme/ayu-vim",
 		config = function()
-			vim.cmd("colorscheme rose-pine")
+			vim.cmd("let ayucolor='dark'")
+			vim.cmd("colorscheme ayu")
 		end
 	}
 }
