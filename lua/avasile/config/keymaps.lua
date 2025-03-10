@@ -113,23 +113,36 @@ M.fugitive = {
 	end
 }
 
+M.conform = {
+	setup = function()
+		av.nmap({
+			"<leader>f",
+			function() require("conform").format() end,
+			{ desc = "Format Conform" }
+		})
+	end
+}
+
 -- List of keybinds that apply specifically to buffers
 M.lsp = function(client)
 	local vlb = vim.lsp.buf
 	local keybinds = {
 		["hoverProvider"] = { "K", vlb.hover, { desc = "Hover" } },
-		["documentFormattingProvider"] = { "<leader>f", vlb.format, { desc = "[F]ormat buffer" } },
+		-- ["documentFormattingProvider"] = { "<leader>f", vlb.format, { desc = "[F]ormat buffer" } },
 		["renameProvider"] = { "<leader>rn", vlb.rename, { desc = "[R]e[n]ame" } },
 		["codeActionProvider"] = { "<leader>ca", vlb.code_action, { desc = "[C]ode [A]ction" } },
 		-- ["declarationProvider"] = { "gD", vlb.declaration, { desc = "[G]oto [D]eclaration" } },
 
 		-- WARN: the following SHOULD use telescope
-		["definitionProvider"] = { "gd", function () require("telescope.builtin").lsp_definitions() end, { desc = "[G]oto Definition" } },
-		["referencesProvider"] = { "gr", function () require("telescope.builtin").lsp_references() end, { desc = "[G]oto References" } },
-		["implementationProvider"] = { "gr", function () require("telescope.builtin").lsp_implementations() end, { desc = "[G]oto Implementation" } },
-		["typeDefinitionProvider"] = { "gD", function () require("telescope.builtin").lsp_type_definitions() end, { desc = "[G]oto Type Definition" } },
-		["documentSymbolProvider"] = { "<leader>lw", function () require("telescope.builtin").lsp_document_symbols() end, { desc = "Document Symbols" } },
-		["workspaceSymbolProvider"] = { "<leader>ws", function () require("telescope.builtin").lsp_dynamic_workspace_symbols() end, { desc = "Workspace Symbols" } },
+		["definitionProvider"] = { "gd", function() require("telescope.builtin").lsp_definitions() end, { desc = "[G]oto Definition" } },
+		["referencesProvider"] = { "gr", function() require("telescope.builtin").lsp_references() end, { desc = "[G]oto References" } },
+		["implementationProvider"] = { "gr", function() require("telescope.builtin").lsp_implementations() end, { desc = "[G]oto Implementation" } },
+		["typeDefinitionProvider"] = { "gD", function() require("telescope.builtin").lsp_type_definitions() end, { desc = "[G]oto Type Definition" } },
+		["documentSymbolProvider"] = { "<leader>lw", function() require("telescope.builtin").lsp_document_symbols() end, { desc = "Document Symbols" } },
+		["workspaceSymbolProvider"] = { "<leader>ws", function()
+			require("telescope.builtin")
+				.lsp_dynamic_workspace_symbols()
+		end, { desc = "Workspace Symbols" } },
 	}
 
 	for key, v in pairs(keybinds) do
