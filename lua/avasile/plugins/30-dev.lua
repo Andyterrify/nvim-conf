@@ -77,6 +77,8 @@ return {
 		opts = {},
 		config = function()
 			require("conform").setup({
+				formatters = {
+				},
 				formatters_by_ft = {
 					lua = { "stylua" },
 					-- Conform will run multiple formatters sequentially
@@ -87,6 +89,10 @@ return {
 					typescript = { "prettierd" },
 					-- Conform will run the first available formatter
 					javascript = { "prettierd", "prettier", stop_after_first = true },
+					javascriptreact = {"prettier", },
+					typescriptreact = {"prettier", },
+					yaml = {"yq", },
+					toml = {"yq", },
 				},
 			})
 			require("avasile.config.keymaps").conform.setup()
