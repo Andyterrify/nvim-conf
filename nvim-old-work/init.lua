@@ -12,7 +12,7 @@ local vim_opts = function()
     vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
     -- open netrw
-    vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {})
+    vim.keymap.set("n", "<leader>pv", ':Oil<CR>', {})
 
     -- faster line movement
     -- the `=` realigns given treesitter!
@@ -546,7 +546,7 @@ local lazy_fn = function()
 
                     -- vim.keymap.set("n", "<C-e>", function() toggle_telescope(harpoon:list()) end,
                     --     { desc = "Open harpoon window" })
-                    vim.keymap.set("n", "<leader>th", function() harpoon:list():add() end)
+                    vim.keymap.set("n", "<leader>h", function() harpoon:list():add() end)
                     vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
                     -- vim.reymap.set("n", "<C-h>", function() harpoon:list():select(1) end)

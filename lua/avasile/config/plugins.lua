@@ -35,9 +35,9 @@ M.telescope = {
 				},
 			},
 			defaults = {
-				path_display = {
-					shorten = 3,
-				},
+				-- path_display = {
+				-- 	shorten = 3,
+				-- },
 				-- layout_strategy = "vertical",
 				layout_config = {
 					vertical = {
@@ -277,7 +277,6 @@ local user_lsp_config = {
 	},
 	pyright = {},
 	ruff_lsp = {},
-	rust_analyzer = {},
 	taplo = {},
 	yamlls = {},
 	quick_lint_js = {},
@@ -316,7 +315,7 @@ M.lsp = {
 		require('mason').setup()
 		require('mason-lspconfig').setup {
 			-- LSP servers we 100% want available
-			ensure_installed = { 'lua_ls', 'rust_analyzer' },
+			ensure_installed = { 'lua_ls'},
 			-- default fn for servers
 			automatic_installation = false,
 			handlers = {
@@ -328,6 +327,24 @@ M.lsp = {
 		}
 		-- non-mason servers
 		setup_lsp_server("pyright")
+
+		vim.lsp.config("rust_analyzer", {
+			root_markers = {".gitignore"},
+			settings = {
+				['rust-analyzer'] = {
+				  diagnostics = {
+					enable = true;
+				  },
+				  checkOnSave = {
+					  command = "clippy"
+				  }
+				}
+			  },
+			  on_attach = function (client, bufnr)
+				  vim.lsp.inlay_hint.enable(true, {bufnr=bufnr})
+			  end
+		})
+		vim.lsp.enable("rust_analyzer")
 	end
 }
 

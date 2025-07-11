@@ -6,7 +6,7 @@ vim.g.maplocalleader = ' '
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- open netrw
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, {})
+vim.keymap.set("n", "<leader>pv", ':Oil<CR>', {})
 
 -- faster line movement
 -- the `=` realigns given treesitter!

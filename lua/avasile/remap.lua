@@ -10,7 +10,7 @@ nmap({ '<Esc>', '<cmd>nohlsearch<CR>' })
 -- open netrw
 nmap({
 	"<leader>pv",
-	vim.cmd.Ex,
+	':Oil<CR>',
 	{ desc = '[P]roject [V]iew' }
 })
 
