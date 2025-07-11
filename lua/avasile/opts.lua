@@ -23,7 +23,7 @@ vim.opt.colorcolumn = "112"
 
 -- highlight the line the cursor is on
 vim.opt.cursorline = true
--- vim.opt.cursorcolumn = true
+vim.opt.cursorcolumn = true
 
 -- Enable mouse mode
 vim.opt.mouse = 'a'
@@ -42,12 +42,12 @@ vim.wo.signcolumn = 'yes'
 
 -- -- Decrease update time
 -- vim.opt.updatetime = 250
-vim.opt.timeoutlen = 500
+vim.opt.timeoutlen = 400
 
 -- Set completeopt to have a better completion experience
 -- TODO: CHeck this again
 -- vim.opt.completeopt = 'menuone,noselect'
-vim.opt.completeopt = 'menuone,noinsert,preview'
+vim.opt.completeopt = 'fuzzy,menuone,noinsert,preview'
 
 -- enable termcolors
 vim.opt.termguicolors = true
@@ -66,7 +66,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 -- better folding
 vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 8
-vim.opt.foldminlines = 0
+vim.opt.foldminlines = 1
 
 -- how many lines to see when at the top or bottom of the buffer
 vim.opt.scrolloff = 6
@@ -77,10 +77,11 @@ vim.opt.breakindent = true
 vim.opt.linebreak = true
 
 -- set default tab and indent behaviour
-vim.opt.tabstop = 4 -- how many chars a tab is taking up space
+vim.opt.tabstop = 8 -- how many chars a tab is taking up space
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
--- vim.opt.expandtab = true -- expand tab to space
+-- you can insert a "real tab" now with CTRL-V<Tab>
+vim.opt.expandtab = true -- expand tab to space
 vim.opt.smartindent = true
 
 -- -- -- This will disable the vim swap and backup files and only use undotree,
@@ -93,7 +94,7 @@ vim.opt.smartindent = true
 -- NOTE: on idea
 -- vim.opt.isfname:append("@-@")
 
-vim.g.netrw_banner = 1
-vim.g.netrw_browse_split = 0
-vim.g.netrw_winsize = 25
-vim.g.netrw_liststyle = 1
+-- vim.g.netrw_banner = 1
+-- vim.g.netrw_browse_split = 0
+-- vim.g.netrw_winsize = 25
+-- vim.g.netrw_liststyle = 1

@@ -37,9 +37,9 @@ nmap({
 
 -- quicker buffers
 nmap({
-	'<C-m>',
-	":bn<CR>",
-	{ noremap = true, desc = "Next Buffer" }
+    '<C-m>',
+    ":bn<CR>",
+    { noremap = true, desc = "Next Buffer" }
 })
 nmap({
 	'<C-n>',
