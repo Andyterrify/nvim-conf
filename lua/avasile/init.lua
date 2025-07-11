@@ -1,6 +1,5 @@
-
 -- makes working with config much easier
-local augroup = vim.api.nvim_create_augroup("MyNvimConfig", {clear=true})
+local augroup = vim.api.nvim_create_augroup("MyNvimConfig", { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
     group = augroup,
