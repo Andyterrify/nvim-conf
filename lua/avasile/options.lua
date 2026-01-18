@@ -1,4 +1,6 @@
 -- https://neovim.io/doc/user/quickref.html#option-list
+--
+-- inspired by https://github.com/Rishabh672003/Neovim/blob/main/lua/rj/options.lua
 
 local options = {
 	backup = false, -- create a backup file

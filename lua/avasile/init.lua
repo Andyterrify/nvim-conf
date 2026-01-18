@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 })
 
 -- setup neovim opts and keymaps
-require("avasile.opts")
+require("avasile.options")
 require("avasile.keymaps")
 
 -- setup plugin manager
