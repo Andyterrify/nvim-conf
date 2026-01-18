@@ -29,6 +29,8 @@ require("avasile.autocmds")
 -- vim.cmd("colorscheme vague")
 vim.cmd("colorscheme ayu")
 
+require("avasile.extras.big-file")
+
 -- setup personal LSP prefs
 -- require("avasile.config.lsp").mason_setup()
 
