@@ -1,8 +1,6 @@
 return {
 	-- FZF native for better performance
-	{ 'nvim-telescope/telescope-fzf-native.nvim',
-		build = 'make' 
-	},
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	{
 		-- requires telescope-fzf-native
 		-- recommends fd binary
@@ -15,36 +13,36 @@ return {
 		},
 		-- gets passed to setup
 		opts = {
-				extensions = {
-					fzf = {
-						fuzzy = true,
-						override_generic_sorter = true,
-						override_file_sorter = true,
-						case_mode = "smart_case",
-					},
-				},
-				pickers = {
-					buffers = {
-						soft_lastused = true,
-						sort_mru = true,
-						ignore_current_buffer = true,
-					},
-					find_files = {
-						hidden = false,
-					},
-				},
-				defaults = {
-					layout_config = {
-						vertical = {
-							width = 0.8,
-							height = 0.98,
-							preview_height = 0.45,
-							mirror = true,
-						},
-					},
-					sorting_strategy = "ascending",
+			extensions = {
+				fzf = {
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case",
 				},
 			},
+			pickers = {
+				buffers = {
+					soft_lastused = true,
+					sort_mru = true,
+					ignore_current_buffer = true,
+				},
+				find_files = {
+					hidden = false,
+				},
+			},
+			defaults = {
+				layout_config = {
+					vertical = {
+						width = 0.8,
+						height = 0.98,
+						preview_height = 0.45,
+						mirror = true,
+					},
+				},
+				sorting_strategy = "ascending",
+			},
+		},
 		config = function()
 			local telescope = require("telescope")
 			local builtin = require("telescope.builtin")
@@ -54,7 +52,7 @@ return {
 			if not ok then
 				vim.notify("Failed to load telescope-fzf-native, did it setup correctly?", vim.log.levels.WARN)
 			end
-			
+
 			-- keybinds
 			local nmapd = require("avasile.utils").nmapd
 			nmapd("<leader>pf", builtin.find_files, "Search [P]roject [F]iles")
@@ -66,12 +64,14 @@ return {
 			nmapd("<leader>sw", builtin.grep_string, "[S]earch current [W]ord")
 			nmapd("<leader>sr", builtin.resume, "[S]earch [R]esume")
 			nmapd("<leader>sc", builtin.commands, "[S]earch [C]ommands")
-			nmapd("<leader>sn", function() builtin.find_files({ cwd = vim.fn.stdpath("config") }) end, "[S]earch [N]eovim files")
+			nmapd("<leader>sn", function()
+				builtin.find_files({ cwd = vim.fn.stdpath("config") })
+			end, "[S]earch [N]eovim files")
 
 			-- Fuzzy search in current buffer
 			nmapd("<leader>/", function()
 				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-					winblend = 10,
+					winblend = 20,
 					previewer = false,
 				}))
 			end, "[/] Fuzzily search in current buffer")
@@ -84,7 +84,7 @@ return {
 				})
 			end, "Grep CWD")
 
-			-- setup fidget integration 
+			-- setup fidget integration
 			require("telescope").load_extension("fidget")
 		end,
 	},

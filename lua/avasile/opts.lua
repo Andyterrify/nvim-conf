@@ -4,7 +4,7 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
 -- Preview substitutions live, as you type!
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = true
@@ -26,7 +26,7 @@ vim.opt.cursorline = true
 -- vim.opt.cursorcolumn = true
 
 -- Enable mouse mode
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -38,7 +38,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = "yes"
 
 -- -- Decrease update time
 -- vim.opt.updatetime = 250
@@ -47,7 +47,7 @@ vim.opt.timeoutlen = 500
 -- Set completeopt to have a better completion experience
 -- TODO: CHeck this again
 -- vim.opt.completeopt = 'menuone,noselect'
-vim.opt.completeopt = 'menuone,noinsert,preview'
+vim.opt.completeopt = "menuone,noinsert,preview"
 
 -- enable termcolors
 vim.opt.termguicolors = true
@@ -61,10 +61,10 @@ vim.opt.splitbelow = true
 
 -- Sets how neovim will display certain whitespace in the editor.
 vim.opt.list = false
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- better folding
-vim.opt.foldmethod = 'indent'
+vim.opt.foldmethod = "indent"
 vim.opt.foldlevel = 8
 vim.opt.foldminlines = 0
 

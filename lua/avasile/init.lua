@@ -12,10 +12,8 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 			return true
 		end
 		return false
-	end
+	end,
 })
-
--- vim.cmd"packadd nvim.undotree"
 
 -- setup neovim opts and keymaps
 require("avasile.opts")
@@ -24,12 +22,13 @@ require("avasile.keymaps")
 -- setup plugin manager
 require("avasile.lazy")
 
+-- autocmds after lazy
+require("avasile.autocmds")
+
 vim.cmd("colorscheme vague")
 
 -- setup personal LSP prefs
 -- require("avasile.config.lsp").mason_setup()
-
-
 
 -- Custom command to open man page in a read-only buffer
 -- vim.api.nvim_create_user_command('ManPage', function(opts)

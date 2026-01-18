@@ -2,8 +2,8 @@ local M = {}
 
 M.conf = {
 	fugitive = {
-		width = 80
-	}
+		width = 80,
+	},
 }
 
 -- { keys, func, opts }
@@ -11,17 +11,17 @@ M.conf = {
 ---@param args table
 function M.nmap(lhs, rhs, opts)
 	-- local o = { desc = 'DEFAULT: No Command Desc' }
-	local o = vim.tbl_deep_extend(
-		'force',
-		{ desc = 'no desc set' },
-		opts or {}
-	)
+	local o = vim.tbl_deep_extend("force", { desc = "no desc set" }, opts or {})
 
 	vim.keymap.set("n", lhs, rhs, o)
 end
 
 function M.nmapd(lhs, rhs, desc)
 	vim.keymap.set("n", lhs, rhs, { desc = desc })
+end
+
+function M.bnmapd(lhs, rhs, desc, bufnr)
+	vim.keymap.set("n", lhs, rhs, { desc = desc, buffer = bufnr })
 end
 
 -- global config to share

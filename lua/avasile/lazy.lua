@@ -6,7 +6,7 @@ if not vim.uv.fs_stat(lazypath) then
 	if vim.v.shell_error ~= 0 then
 		vim.api.nvim_echo({
 			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out,                            "WarningMsg" },
+			{ out, "WarningMsg" },
 			{ "\nPress any key to exit..." },
 		}, true, {})
 		vim.fn.getchar()
@@ -32,14 +32,14 @@ require("lazy").setup({
 	-- install = { colorscheme = { "habamax" } },
 	local_spec = false, -- project specific .lazy.lua will be added at the end
 	-- automatically check for plugin updates
-	checker = { enabled = true },
+	checker = { enabled = false }, -- annoying, it stops file open until you ack
 	change_detection = { enabled = false }, -- no reason
-	pkg = { enabled = true },           -- some other package thing
+	pkg = { enabled = true }, -- some other package thing
 	rocks = { enabled = false },
 	performance = {
 		cache = { enabled = true },
 		disabled_plugins = {
-			"tutor"
+			"tutor",
 		},
 	},
 })
