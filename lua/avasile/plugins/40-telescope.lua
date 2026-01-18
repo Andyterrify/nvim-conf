@@ -53,6 +53,22 @@ return {
 				vim.notify("Failed to load telescope-fzf-native, did it setup correctly?", vim.log.levels.WARN)
 			end
 
+			local fn_find_files = function()
+				builtin.find_files({ cwd = vim.fn.stdpath("config") })
+			end
+			local fn_fuzzy_buffer = function()
+				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+					winblend = 20,
+					previewer = false,
+				}))
+			end
+			local fn_live_grep = function()
+				builtin.live_grep({
+					grep_open_files = false,
+					prompt_title = "Live grep in cwd",
+				})
+			end
+
 			-- keybinds
 			local nmapd = require("avasile.utils").nmapd
 			nmapd("<leader>pf", builtin.find_files, "Search [P]roject [F]iles")
@@ -64,25 +80,9 @@ return {
 			nmapd("<leader>sw", builtin.grep_string, "[S]earch current [W]ord")
 			nmapd("<leader>sr", builtin.resume, "[S]earch [R]esume")
 			nmapd("<leader>sc", builtin.commands, "[S]earch [C]ommands")
-			nmapd("<leader>sn", function()
-				builtin.find_files({ cwd = vim.fn.stdpath("config") })
-			end, "[S]earch [N]eovim files")
-
-			-- Fuzzy search in current buffer
-			nmapd("<leader>/", function()
-				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-					winblend = 20,
-					previewer = false,
-				}))
-			end, "[/] Fuzzily search in current buffer")
-
-			-- Live grep in CWD
-			nmapd("<leader>s/", function()
-				builtin.live_grep({
-					grep_open_files = false,
-					prompt_title = "Live grep in cwd",
-				})
-			end, "Grep CWD")
+			nmapd("<leader>sn", fn_find_files, "[S]earch [N]eovim files")
+			nmapd("<leader>/", fn_fuzzy_buffer, "[/] Fuzzily search in current buffer")
+			nmapd("<leader>s/", fn_live_grep, "Grep CWD")
 
 			-- setup fidget integration
 			require("telescope").load_extension("fidget")
