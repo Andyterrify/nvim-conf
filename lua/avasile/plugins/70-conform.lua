@@ -19,7 +19,7 @@ return {
 		---@type conform.setupOpts
 		opts = { -- Define your formatters
 			formatters_by_ft = {
-				lua = { "stylua" },
+				lua = { "stylua" }, -- cargo install stylua --features luajit
 				python = { "isort", "black" },
 				javascript = { "prettierd", "prettier", stop_after_first = true },
 				rust = { "rustfmt", lsp_format = "fallback" },
@@ -31,7 +31,7 @@ return {
 				lsp_format = "fallback",
 			},
 			-- Set up format-on-save
-			format_on_save = { timeout_ms = 500 },
+			-- format_on_save = { timeout_ms = 500 },
 			-- Customize formatters
 			formatters = {
 				shfmt = {

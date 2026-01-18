@@ -1,6 +1,6 @@
 return {
 	-- most important
-	{ "nvim-lua/plenary.nvim", lazy = true },
+	{ "nvim-lua/plenary.nvim",       lazy = true },
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 
 	{
@@ -10,7 +10,7 @@ return {
 
 		config = function()
 			vim.cmd("let ayucolor='dark'")
-			vim.cmd("colorscheme ayu")
+			-- 	vim.cmd("colorscheme ayu")
 		end,
 	},
 	{
@@ -18,7 +18,7 @@ return {
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other plugins
 	},
-	{ -- keybinds viewer
+	{              -- keybinds viewer
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		opts = {

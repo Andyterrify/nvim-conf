@@ -24,8 +24,10 @@ require("avasile.lazy")
 
 -- autocmds after lazy
 require("avasile.autocmds")
+-- require("avasile.lsp")
 
-vim.cmd("colorscheme vague")
+-- vim.cmd("colorscheme vague")
+vim.cmd("colorscheme ayu")
 
 -- setup personal LSP prefs
 -- require("avasile.config.lsp").mason_setup()
