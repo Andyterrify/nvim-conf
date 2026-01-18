@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/avasile/.config/nvim diff lua/avasile/config/plugins.lua)",
+      "Bash(tree:*)"
+    ]
+  }
+}

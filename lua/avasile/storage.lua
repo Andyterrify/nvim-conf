@@ -1,0 +1,236 @@
+-- -- ============================================================================
+-- -- GLOBAL STORAGE PATTERNS FOR NEOVIM
+-- -- ============================================================================
+-- -- This file demonstrates three working approaches to global state management
+-- -- in Neovim. Choose the one that fits your needs.
+-- -- ============================================================================
+--
+-- -- ----------------------------------------------------------------------------
+-- -- APPROACH 1: Module-based state (RECOMMENDED)
+-- -- ----------------------------------------------------------------------------
+-- -- Simple, clean, and idiomatic Lua. State persists as long as the module
+-- -- is cached. Use this for most cases.
+--
+-- local M = {}
+--
+-- -- Initialize state
+-- M.keybinds = {
+-- 	global = {},
+-- 	buffers = {},
+-- }
+-- M.lsp_servers = {}
+-- M.buffer_opts = {}
+--
+-- -- Example: Adding data at runtime
+-- function M.add_keybind(mode, keys, func, desc)
+-- 	table.insert(M.keybinds.global, {
+-- 		mode = mode,
+-- 		keys = keys,
+-- 		func = func,
+-- 		desc = desc,
+-- 	})
+-- end
+--
+-- -- Example: Get buffer-specific options
+-- function M.get_buffer_opts(bufnr)
+-- 	if not M.buffer_opts[bufnr] then
+-- 		M.buffer_opts[bufnr] = {
+-- 			lsp_clients = {},
+-- 			custom_settings = {},
+-- 		}
+-- 	end
+-- 	return M.buffer_opts[bufnr]
+-- end
+--
+-- -- Usage in other files:
+-- -- local storage = require("avasile.storage")
+-- -- storage.add_keybind("n", "<leader>t", function() print("test") end, "Test")
+-- -- local opts = storage.get_buffer_opts(1)
+--
+-- -- ----------------------------------------------------------------------------
+-- -- APPROACH 2: Using vim.g (Global Vim Variables)
+-- -- ----------------------------------------------------------------------------
+-- -- Good for simple data that needs to be accessible from Vimscript too.
+-- -- NOTE: vim.g can only store JSON-serializable data (strings, numbers,
+-- -- tables, booleans). Functions will be lost!
+--
+-- function M.init_vim_g()
+-- 	-- Initialize if not already set
+-- 	if vim.g.avasile == nil then
+-- 		vim.g.avasile = {
+-- 			keybinds = {
+-- 				global = {},
+-- 				buffers = {},
+-- 			},
+-- 			lsp_servers = {},
+-- 			buffer_opts = {},
+-- 		}
+-- 	end
+-- end
+--
+-- function M.set_vim_g(key, value)
+-- 	M.init_vim_g()
+-- 	local current = vim.g.avasile
+-- 	current[key] = value
+-- 	vim.g.avasile = current -- Must reassign to trigger update
+-- end
+--
+-- function M.get_vim_g(key)
+-- 	M.init_vim_g()
+-- 	return vim.g.avasile[key]
+-- end
+--
+-- -- IMPORTANT: When modifying nested tables in vim.g, you must:
+-- -- 1. Get the entire table
+-- -- 2. Modify it
+-- -- 3. Reassign it back to vim.g
+-- -- Example:
+-- -- local data = vim.g.avasile
+-- -- data.new_key = "value"
+-- -- vim.g.avasile = data  -- This line is critical!
+--
+-- -- Usage:
+-- -- require("avasile.storage").init_vim_g()
+-- -- require("avasile.storage").set_vim_g("test", { foo = "bar" })
+-- -- vim.print(vim.g.avasile.test)
+--
+-- -- ----------------------------------------------------------------------------
+-- -- APPROACH 3: Using _G (Lua Global Namespace)
+-- -- ----------------------------------------------------------------------------
+-- -- Most flexible - can store functions, metatables, everything.
+-- -- Use when you need to share complex objects across all Lua contexts.
+--
+-- function M.init_global()
+-- 	if _G.AvasileStorage == nil then
+-- 		_G.AvasileStorage = {
+-- 			keybinds = {
+-- 				global = {},
+-- 				buffers = {},
+-- 			},
+-- 			lsp_servers = {},
+-- 			buffer_opts = {},
+--
+-- 			-- Can store functions in _G!
+-- 			utils = {
+-- 				add_keybind = function(mode, keys, func, desc)
+-- 					table.insert(_G.AvasileStorage.keybinds.global, {
+-- 						mode = mode,
+-- 						keys = keys,
+-- 						func = func,
+-- 						desc = desc,
+-- 					})
+-- 				end,
+--
+-- 				get_buffer_opts = function(bufnr)
+-- 					if not _G.AvasileStorage.buffer_opts[bufnr] then
+-- 						_G.AvasileStorage.buffer_opts[bufnr] = {
+-- 							lsp_clients = {},
+-- 							custom_settings = {},
+-- 						}
+-- 					end
+-- 					return _G.AvasileStorage.buffer_opts[bufnr]
+-- 				end,
+-- 			},
+-- 		}
+-- 	end
+-- 	return _G.AvasileStorage
+-- end
+--
+-- -- Usage:
+-- -- require("avasile.storage").init_global()
+-- -- _G.AvasileStorage.utils.add_keybind("n", "<leader>x", function() end, "Test")
+-- -- local opts = _G.AvasileStorage.utils.get_buffer_opts(1)
+--
+-- -- ----------------------------------------------------------------------------
+-- -- COMPARISON & RECOMMENDATIONS
+-- -- ----------------------------------------------------------------------------
+-- --
+-- -- | Approach     | Can Store Functions | Persists Across Files | Vim Accessible | Use Case                          |
+-- -- |--------------|--------------------|-----------------------|----------------|-----------------------------------|
+-- -- | Module (M)   | ✅ Yes              | ✅ Yes (cached)        | ❌ No           | Most plugin development           |
+-- -- | vim.g        | ❌ No               | ✅ Yes                 | ✅ Yes          | Simple config data                |
+-- -- | _G           | ✅ Yes              | ✅ Yes                 | ✅ Yes          | Complex shared state              |
+-- --
+-- -- RECOMMENDED: Use the Module approach (M) for 95% of cases. It's clean,
+-- -- testable, and follows Lua best practices.
+--
+-- -- ----------------------------------------------------------------------------
+-- -- WORKING EXAMPLE: Complete Buffer Options System
+-- -- ----------------------------------------------------------------------------
+--
+-- M.BufferManager = {}
+--
+-- function M.BufferManager.init(bufnr)
+-- 	local key = tostring(bufnr)
+-- 	if not M.buffer_opts[key] then
+-- 		M.buffer_opts[key] = {
+-- 			lsp_clients = {},
+-- 			keybinds = {},
+--
+-- 			-- Function to get LSP client names
+-- 			get_client_names = function()
+-- 				local clients = vim.lsp.get_clients({ bufnr = bufnr })
+-- 				local names = {}
+-- 				for _, client in ipairs(clients) do
+-- 					table.insert(names, client.name)
+-- 				end
+-- 				return names
+-- 			end,
+--
+-- 			-- Function to get LSP capabilities
+-- 			get_capabilities = function()
+-- 				local clients = vim.lsp.get_clients({ bufnr = bufnr })
+-- 				local all_caps = {}
+-- 				for _, client in ipairs(clients) do
+-- 					all_caps[client.name] = client.server_capabilities
+-- 				end
+-- 				return all_caps
+-- 			end,
+--
+-- 			-- Add a keybind for this buffer
+-- 			add_keybind = function(mode, lhs, rhs, desc)
+-- 				vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+-- 				table.insert(M.buffer_opts[key].keybinds, {
+-- 					mode = mode,
+-- 					lhs = lhs,
+-- 					desc = desc,
+-- 				})
+-- 			end,
+-- 		}
+-- 	end
+-- 	return M.buffer_opts[key]
+-- end
+--
+-- function M.BufferManager.get(bufnr)
+-- 	return M.BufferManager.init(bufnr)
+-- end
+--
+-- function M.BufferManager.cleanup(bufnr)
+-- 	local key = tostring(bufnr)
+-- 	M.buffer_opts[key] = nil
+-- end
+--
+-- -- Usage example:
+-- --[[
+-- -- In your LSP on_attach or autocmd:
+-- local storage = require("avasile.storage")
+-- local buf_mgr = storage.BufferManager.get(vim.api.nvim_get_current_buf())
+--
+-- -- Get LSP info
+-- local client_names = buf_mgr.get_client_names()
+-- vim.print("LSP clients: " .. vim.inspect(client_names))
+--
+-- -- Add a buffer-local keybind
+-- buf_mgr.add_keybind("n", "<leader>bi", function()
+-- 	vim.print("Buffer info!")
+-- end, "Buffer Info")
+--
+-- -- Clean up when buffer is deleted
+-- vim.api.nvim_create_autocmd("BufDelete", {
+-- 	callback = function(ev)
+-- 		storage.BufferManager.cleanup(ev.buf)
+-- 	end,
+-- })
+-- ]]
+--
+-- return M
