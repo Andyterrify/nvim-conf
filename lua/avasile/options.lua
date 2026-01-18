@@ -42,6 +42,7 @@ local options = {
 	linebreak = true, -- never split a line inside a word
 	-- tabstop = 4, -- how many chars a tab takes up
 	softtabstop = 4, -- how many chars a tab is shown as
+	tabstop = 4, -- how many chars a shift moves by
 	shiftwidth = 4, -- how many chars a shift moves by
 	expandtab = true, -- always expand tab to spaces
 	smartindent = true, --
