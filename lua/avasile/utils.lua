@@ -9,24 +9,28 @@ M.conf = {
 -- { keys, func, opts }
 -- where opts = { desc = "<some default>", ** }
 ---@param args table
-function M.nmap(args)
+function M.nmap(lhs, rhs, opts)
 	-- local o = { desc = 'DEFAULT: No Command Desc' }
 	local o = vim.tbl_deep_extend(
 		'force',
-		{ desc = 'DEFAULT: No Command Desc' },
-		args[3] or {}
+		{ desc = 'no desc set' },
+		opts or {}
 	)
 
-	vim.keymap.set("n", args[1], args[2], o)
+	vim.keymap.set("n", lhs, rhs, o)
+end
+
+function M.nmapd(lhs, rhs, desc)
+	vim.keymap.set("n", lhs, rhs, { desc = desc })
 end
 
 -- global config to share
-M.open_fugitive = function()
-	vim.cmd('vert Git\n')
-
-	local width = vim.api.nvim_win_get_width(0)
-	vim.api.nvim_win_set_width(0, math.min(M.conf.fugitive.width, width))
-end
+-- M.open_fugitive = function()
+-- 	vim.cmd('vert Git\n')
+--
+-- 	local width = vim.api.nvim_win_get_width(0)
+-- 	vim.api.nvim_win_set_width(0, math.min(M.conf.fugitive.width, width))
+-- end
 
 -- function config_root()
 -- 	return vim.g.avasile

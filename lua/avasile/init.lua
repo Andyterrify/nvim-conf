@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	end
 })
 
-
+-- vim.cmd"packadd nvim.undotree"
 
 -- setup neovim opts and keymaps
 require("avasile.opts")
