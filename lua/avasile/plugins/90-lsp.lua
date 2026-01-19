@@ -23,11 +23,11 @@ return {
 					-- Setup keybinds for LSP
 					require("avasile.lsp.keymaps").setup(event.buf)
 
-					-- Hover on cursor hold
-					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-						buffer = event.buf,
-						callback = vim.lsp.buf.hover,
-					})
+					-- -- Hover on cursor hold
+					-- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+					-- 	buffer = event.buf,
+					-- 	callback = vim.lsp.buf.hover,
+					-- })
 				end,
 			})
 
