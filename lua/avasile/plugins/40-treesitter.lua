@@ -8,26 +8,40 @@ return {
 		build = ":TSUpdate",
 		opts = {},
 		config = function()
-			require("nvim-treesitter")
-				.install({
-					"lua",
-					"rust",
-					"go",
-					"diff",
-					"html",
-					"javascript",
-					"json",
-					"luadoc",
-					"luap",
-					"markdown",
-					"markdown_inline",
-					"python",
-					"vim",
-					"vimdoc",
-					"yaml",
-					"go",
-				})
-				:wait(300000)
+			local wanted = {
+				"lua",
+				"rust",
+				"go",
+				"diff",
+				"html",
+				"javascript",
+				"json",
+				"luadoc",
+				"luap",
+				"markdown",
+				"markdown_inline",
+				"python",
+				"vim",
+				"vimdoc",
+				"yaml",
+				"go",
+			}
+
+			require("nvim-treesitter").install(wanted):wait(300000)
+
+			-- treesitter highlight for filetypes
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = wanted,
+				callback = function()
+					-- syntax highlighting, provided by Neovim
+					vim.treesitter.start()
+					-- folds, provided by Neovim
+					-- vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+					-- vim.wo.foldmethod = "expr"
+					-- indentation, provided by nvim-treesitter
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end,
+			})
 		end,
 	},
 }
