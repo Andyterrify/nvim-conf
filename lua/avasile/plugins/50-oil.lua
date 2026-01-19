@@ -36,8 +36,10 @@ return {
 		"stevearc/oil.nvim",
 		config = function()
 			require("oil").setup({
-				-- columns = { "icon", "name", "size", "mtime" },
-				use_default_keymaps = false, -- we'll set our own to avoid collisions
+				columns = { "icon", "size", "mtime", "permissions" },
+				delete_to_trash = true,
+				watch_for_changes = true,
+				use_default_keymaps = true, -- we'll set our own to avoid collisions
 				view_options = { show_hidden = true },
 			})
 
