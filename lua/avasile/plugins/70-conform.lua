@@ -10,7 +10,7 @@ return {
 				function()
 					require("conform").format({ async = false, timeout_ms = 500 })
 				end,
-				mode = "n",
+				mode = { "n", "v" },
 				desc = "Format buffer",
 			},
 		},

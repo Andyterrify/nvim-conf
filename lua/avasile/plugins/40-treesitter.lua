@@ -24,7 +24,6 @@ return {
 				"vim",
 				"vimdoc",
 				"yaml",
-				"go",
 			}
 
 			require("nvim-treesitter").install(wanted):wait(300000)
