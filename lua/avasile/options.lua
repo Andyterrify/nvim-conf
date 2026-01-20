@@ -52,7 +52,7 @@ local options = {
 	-- foldexpr = "v:lua.vim.treesitter.foldexpr()", -- specifies the expression used to calculate folds
 	-- indentexpr = "nvim_treesitter#indent()", -- specifies the function used to calculate the indentation level
 	wildoptions = { "fuzzy", "pum", "tagfile" }, -- unclear
-	splitkeep = "screen", -- when scaling horizontal splits keep the text in the same line
+	splitkeep = "cursor", -- when scaling horizontal splits keep the cursor in the same relative position
 }
 
 for k, v in pairs(options) do

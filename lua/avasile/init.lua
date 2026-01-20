@@ -27,7 +27,8 @@ require("avasile.autocmds")
 -- require("avasile.lsp")
 
 -- vim.cmd("colorscheme vague")
-vim.cmd("colorscheme ayu")
+-- vim.cmd("colorscheme ayu")
+vim.cmd("colorscheme rose-pine")
 
 require("avasile.extras.big-file")
 
